@@ -2,7 +2,7 @@ const express = require('express');
 const mysql = require('mysql2');
 
 const app = express();
-const port = 3001;
+const port = 3005;
 
 // Configuración de la conexión a MySQL
 const db = mysql.createConnection({
@@ -21,9 +21,9 @@ db.connect(err => {
     console.log('Conectado a MySQL');
 });
 
-// Obtener todos los usuarios
-app.get('/songs', (req, res) => {
-    db.query('SELECT * FROM songs', (err, results) => {
+// Obtener todos los películas
+app.get('/movies', (req, res) => {
+    db.query('SELECT * FROM movies', (err, results) => {
         if (err) {
             res.status(500).json({ error: err.message });
             return;
@@ -32,6 +32,52 @@ app.get('/songs', (req, res) => {
     });
 });
 
+
+// Obtener todos los actores
+app.get('/casting', (req, res) => {
+    db.query('SELECT * FROM casting', (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(results);
+    });
+});
+
+
+// Obtener todos las categorías
+app.get('/categories', (req, res) => {
+    db.query('SELECT * FROM categories', (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(results);
+    });
+});
+
+// Obtener todos las sagas
+app.get('/sagas', (req, res) => {
+    db.query('SELECT * FROM saga', (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(results);
+    });
+});
+
+
+app.get('/users', (req, res) => {
+    db.query('SELECT * FROM users', (err, results) => {
+        if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+        }
+        res.json(results);
+    });
+});
+/*
 // Obtener todos los usuarios
 app.get('/users', (req, res) => {
     db.query('SELECT u.id AS user_id, u.name AS user_name, u.email, ml.id AS music_list_id, ml.name AS music_list_name, ml.description, ml.created_at AS list_created_at FROM users u LEFT JOIN music_lists ml ON u.id = ml.user_id', (err, results) => {
@@ -58,6 +104,7 @@ app.get('/users/:id', (req, res) => {
         res.json(results[0]);
     });
 });
+*/
 
 // Iniciar el servidor
 app.listen(port, () => {
